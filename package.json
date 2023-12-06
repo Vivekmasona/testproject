@@ -1,18 +1,12 @@
 {
-  "name": "video-downloader-express",
+  "name": "direct-dl",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "main": "index.js", // Assuming your entry file is named index.js
   "dependencies": {
-    "@xaviabot/fb-downloader": "^1.0.14",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "i-downloader": "^0.0.1"
+    "express": "^4.17.1",
+    "axios": "^0.24.0"
+  },
+  "scripts": {
+    "start": "node index.js" // Adjust the start script based on your entry file name
   }
 }
