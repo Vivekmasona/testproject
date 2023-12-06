@@ -1,7 +1,5 @@
-// Assuming Express for your server
 const express = require('express');
 const axios = require('axios');
-
 const app = express();
 const PORT = 3000;
 
@@ -23,15 +21,17 @@ app.get('/audio', async (req, res) => {
         'X-RapidAPI-Key': rapidApiKey,
         'X-RapidAPI-Host': 'youtube-mp36.p.rapidapi.com',
       },
+      responseType: 'stream', // Important for streaming response
     });
 
-    if (response.data.status === 'ok') {
-      // Handle successful response here, maybe send the audio file to the client
-      res.json({ message: 'Audio downloaded successfully' });
+    if (response.status === 200) {
+      res.header('Content-Disposition', `attachment; filename="audio.mp3"`);
+      response.data.pipe(res);
     } else {
-      res.status(500).json({ error: response.data.msg || 'Unknown error occurred' });
+      res.status(500).json({ error: 'Failed to fetch audio' });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
