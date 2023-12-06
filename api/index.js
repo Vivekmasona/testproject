@@ -12,12 +12,12 @@ const matchYoutubeUrl = (url) => {
   return !!url.match(pattern) && url.match(pattern)[1];
 };
 
-// Route to handle YouTube video conversion
-app.post('/convert', async (req, res) => {
-  const { url } = req.body;
+// Route to handle YouTube video conversion using a query parameter
+app.get('/convert', async (req, res) => {
+  const { url } = req.query;
 
   if (!url) {
-    return res.status(400).json({ error: 'Please provide a YouTube video URL' });
+    return res.status(400).json({ error: 'Please provide a YouTube video URL as a query parameter' });
   }
 
   const newUrl = matchYoutubeUrl(url);
@@ -32,7 +32,7 @@ app.post('/convert', async (req, res) => {
       url: 'https://youtube-mp36.p.rapidapi.com/dl',
       params: { id: newUrl },
       headers: {
-        'X-RapidAPI-Key': '564ea2c962msh3a29125df3c8c9ep14d798jsnb011c7b66f1b',
+        'X-RapidAPI-Key': 'your-api-key',
         'X-RapidAPI-Host': 'youtube-mp36.p.rapidapi.com'
       }
     });
