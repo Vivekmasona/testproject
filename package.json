@@ -1,7 +1,7 @@
 {
   "name": "direct-dl",
   "version": "1.0.0",
-  "main": " node index.js", // Assuming your entry file is named index.js
+  "main": " ", // Assuming your entry file is named index.js
   "dependencies": {
     "express": "^4.17.1",
     "axios": "^0.24.0"
