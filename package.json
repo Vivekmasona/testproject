@@ -1,12 +1,11 @@
 {
   "name": "your-app",
   "version": "1.0.0",
-  "main": "index.js", // Keep this if your main code is in index.js
+  "main": "index.js", 
   "dependencies": {
     "express": "^4.17.1",
     "ytdl-core": "^4.5.1"
   },
   "scripts": {
-    "start": "node index.js" // Adjusted to your main file name
-  }
+    "start": "node index.js" 
 }
