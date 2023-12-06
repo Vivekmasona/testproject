@@ -1,5 +1,6 @@
 const express = require('express');
-const axios = require('axios');
+const http = require('http');
+const ytdl = require('ytdl-core');
 const app = express();
 const PORT = 3000;
 
@@ -13,29 +14,33 @@ app.get('/audio', async (req, res) => {
       return res.status(400).json({ error: 'Please provide a valid YouTube video ID' });
     }
 
-    const response = await axios.request({
+    const options = {
       method: 'GET',
-      url: 'https://youtube-mp36.p.rapidapi.com/dl',
-      params: { id: youtubeVideoId },
+      hostname: 'youtube-mp36.p.rapidapi.com',
+      path: `/dl?id=${youtubeVideoId}`,
       headers: {
         'X-RapidAPI-Key': rapidApiKey,
-        'X-RapidAPI-Host': 'youtube-mp36.p.rapidapi.com',
       },
-      responseType: 'stream', // Important for streaming response
+    };
+
+    const request = http.request(options, (rapidApiResponse) => {
+      if (rapidApiResponse.statusCode === 200) {
+        res.header('Content-Disposition', `attachment; filename="audio.mp3"`);
+        rapidApiResponse.pipe(res);
+      } else {
+        res.status(500).json({ error: 'Failed to fetch audio' });
+      }
     });
 
-    if (response.status === 200) {
-      res.header('Content-Disposition', `attachment; filename="audio.mp3"`);
-      response.data.pipe(res);
-    } else {
-      res.status(500).json({ error: 'Failed to fetch audio' });
-    }
+    request.end();
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-app.listen(PORT, () => {
+const server = http.createServer(app);
+
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
